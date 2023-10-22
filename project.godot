@@ -15,7 +15,17 @@ run/main_scene="res://src/Root.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/size/always_on_top=true
+
 [editor]
 
 naming/node_name_num_separator=2
 naming/scene_name_casing=1
+
+[gui]
+
+theme/custom="res://res/main_theme.tres"
