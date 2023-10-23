@@ -28,4 +28,4 @@ naming/scene_name_casing=1
 
 [gui]
 
-theme/custom="res://res/main_theme.tres"
+theme/custom="res://res/simple_theme.tres"
