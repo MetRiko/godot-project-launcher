@@ -32,32 +32,16 @@ corner_radius_bottom_left = 32
 [node name="ProjectLoader" type="Control" node_paths=PackedStringArray("content_load", "content_loaded", "button_browse_file", "button_browse_dir", "button_clipboard", "button_cancel_found_project")]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 349.0
-offset_bottom = 193.0
+offset_right = 532.0
+offset_bottom = 188.0
 size_flags_vertical = 3
 script = ExtResource("1_0a7sh")
 content_load = NodePath("Content_Load")
 content_loaded = NodePath("Content_Loaded")
-button_browse_file = NodePath("Content_Load/Content/Buttons/VBoxContainer/Button_BrowseFile")
-button_browse_dir = NodePath("Content_Load/Content/Buttons/VBoxContainer/Button_BrowseDir")
-button_clipboard = NodePath("Content_Load/Content/Buttons/Button_LoadFromClipboard")
+button_browse_file = NodePath("Content_Load/Content_ButtonsOrDrop/Buttons/Button_BrowseFile")
+button_browse_dir = NodePath("Content_Load/Content_ButtonsOrDrop/Buttons/Button_BrowseDir")
+button_clipboard = NodePath("Content_Load/Content_ButtonsOrDrop/Buttons/Button_LoadFromClipboard")
 button_cancel_found_project = NodePath("Content_Loaded/Button_CancelFoundProject")
-
-[node name="DropBorder" type="Panel" parent="."]
-modulate = Color(1, 0, 0, 1)
-self_modulate = Color(0, 0.662745, 1, 1)
-material = SubResource("ShaderMaterial_h5jxx")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_r6hjp")
 
 [node name="Content_Load" type="Control" parent="."]
 layout_mode = 1
@@ -67,16 +51,74 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Hinter" type="Button" parent="Content_Load"]
+[node name="Content_ButtonsOrDrop" type="HBoxContainer" parent="Content_Load"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Buttons" type="VBoxContainer" parent="Content_Load/Content_ButtonsOrDrop"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Button_BrowseFile" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Select project.godot"
+
+[node name="Button_BrowseDir" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Scan folder"
+
+[node name="Button_LoadFromClipboard" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Take path from clipboard"
+
+[node name="Label_Or" type="Label" parent="Content_Load/Content_ButtonsOrDrop"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "OR"
+
+[node name="Drop" type="Control" parent="Content_Load/Content_ButtonsOrDrop"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DropBorder" type="Panel" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(0, 0.662745, 1, 1)
+material = SubResource("ShaderMaterial_h5jxx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_r6hjp")
+
+[node name="Hinter" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -48.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = 48.0
+offset_left = -40.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 40.0
 grow_horizontal = 0
 tooltip_text = "Drop folder with godot project or \"project.godot\" file here."
 focus_mode = 0
@@ -86,7 +128,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_twfp0")
 action_mode = 0
 button_mask = 0
 
-[node name="Label" type="Label" parent="Content_Load/Hinter"]
+[node name="Label" type="Label" parent="Content_Load/Content_ButtonsOrDrop/Drop/Hinter"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,59 +138,18 @@ grow_vertical = 2
 text = "?"
 horizontal_alignment = 1
 
-[node name="Content" type="VBoxContainer" parent="Content_Load"]
+[node name="Label" type="Label" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Content_Load/Content"]
-layout_mode = 2
 size_flags_horizontal = 4
 text = "Drop project here..."
-
-[node name="Label_2" type="Label" parent="Content_Load/Content"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"HeaderLarge"
-text = "OR"
-
-[node name="Buttons" type="HBoxContainer" parent="Content_Load/Content"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Spacer" type="Control" parent="Content_Load/Content/Buttons"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Content_Load/Content/Buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="Button_BrowseFile" type="Button" parent="Content_Load/Content/Buttons/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Select project.godot"
-
-[node name="Button_BrowseDir" type="Button" parent="Content_Load/Content/Buttons/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Scan folder"
-
-[node name="Button_LoadFromClipboard" type="Button" parent="Content_Load/Content/Buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Take from
-clipboard"
-
-[node name="Spacer_2" type="Control" parent="Content_Load/Content/Buttons"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Content_Loaded" type="VBoxContainer" parent="."]
 visible = false
