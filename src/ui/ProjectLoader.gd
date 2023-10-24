@@ -1,7 +1,14 @@
 extends Control
+class_name ProjectLoader
 
-signal project_file_loaded(project_file_path : String)
+signal project_file_loaded(project_file_path : String, error : ProjectLoadingError)
 signal project_file_unloaded()
+
+enum ProjectLoadingError {
+	OK,
+	PROJECT_NOT_FOUND,
+	INVALID_PROJECT
+}
 
 @export_group("content")
 @export var content_load : Control
@@ -20,12 +27,14 @@ func _ready():
 	button_clipboard.pressed.connect(_on_button_clipboard_pressed)
 	button_browse_file.pressed.connect(_on_button_browse_file_pressed)
 	button_browse_dir.pressed.connect(_on_button_browse_dir_pressed)
-	button_browse_dir.pressed.connect(_on_button_browse_dir_pressed)
 	button_cancel_found_project.pressed.connect(_on_button_button_cancel_found_project)
 	get_tree().root.files_dropped.connect(_on_files_dropped)
 
 func _on_button_button_cancel_found_project():
-	set_project_file("")
+	project_file_path = ""
+	project_file_unloaded.emit()
+	content_load.visible = true
+	content_loaded.visible = false
 
 func _on_button_clipboard_pressed():
 	var clipboard := DisplayServer.clipboard_get()
@@ -49,17 +58,39 @@ func _browse_file_callback(status : bool, selected_paths : PackedStringArray, se
 		var path = selected_paths[0]
 		var project_file := try_get_project_path(path)
 		set_project_file(project_file)
-			
+
+func _validate_project(project_file_path : String) -> ProjectLoadingError:
+	if project_file_path == "":
+		return ProjectLoadingError.PROJECT_NOT_FOUND
+		
+	var project := ConfigFile.new()
+	var err = project.load(project_file_path)
+	if err != OK:
+		return ProjectLoadingError.INVALID_PROJECT
+	
+	if not project.has_section_key("application", "config/name"):
+		return ProjectLoadingError.INVALID_PROJECT
+		
+	return ProjectLoadingError.OK
+	
 func set_project_file(project_file_path : String):
-	var is_project_valid = project_file_path != ""
-	if is_project_valid:
-		self.project_file_path = project_file_path.replace("\\", "/")
-		project_file_loaded.emit(self.project_file_path)
-		print("Project found: " + self.project_file_path)
-	else:
-		self.project_file_path = ""
-		project_file_unloaded.emit()
-		print("Project not found.")
+	project_file_path = project_file_path.replace("\\", "/")
+	var err := _validate_project(project_file_path)
+	var is_project_valid := err == ProjectLoadingError.OK
+	
+	match err:
+		ProjectLoadingError.OK:
+			print("Project found: " + project_file_path)
+			self.project_file_path = project_file_path
+		ProjectLoadingError.PROJECT_NOT_FOUND:
+			print("Project not found!")
+			self.project_file_path = ""
+		ProjectLoadingError.INVALID_PROJECT:
+			print("Invalid project: " + project_file_path)
+			self.project_file_path = ""
+			
+	project_file_loaded.emit(project_file_path, err)
+	
 	content_load.visible = not is_project_valid
 	content_loaded.visible = is_project_valid
 

@@ -110,15 +110,15 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_r6hjp")
 
 [node name="Hinter" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
+offset_left = -32.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = 40.0
+offset_bottom = 32.0
 grow_horizontal = 0
 tooltip_text = "Drop folder with godot project or \"project.godot\" file here."
 focus_mode = 0
@@ -135,8 +135,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_font_sizes/font_size = 16
 text = "?"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
 layout_mode = 1
