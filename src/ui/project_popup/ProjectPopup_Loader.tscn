@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://dyp2vk70iemcb"]
 
-[ext_resource type="Script" path="res://src/ui/ProjectLoader.gd" id="1_0a7sh"]
-[ext_resource type="Shader" path="res://res/drop_border.gdshader" id="1_rrix2"]
-[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="3_532lk"]
+[ext_resource type="Script" path="res://src/ui/project_popup/ProjectPopup_Loader.gd" id="1_auk0k"]
+[ext_resource type="Shader" path="res://res/drop_border.gdshader" id="2_ijpaa"]
+[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="3_yej88"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h5jxx"]
-shader = ExtResource("1_rrix2")
+shader = ExtResource("2_ijpaa")
 shader_parameter/color = Color(0.278431, 0.356863, 0.478431, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6hjp"]
@@ -29,13 +29,13 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
-[node name="ProjectLoader" type="Control" node_paths=PackedStringArray("content_load", "content_loaded", "button_browse_file", "button_browse_dir", "button_clipboard", "button_cancel_found_project")]
+[node name="ProjectPopup_Loader" type="Control" node_paths=PackedStringArray("content_load", "content_loaded", "button_browse_file", "button_browse_dir", "button_clipboard", "button_cancel_found_project")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 532.0
 offset_bottom = 188.0
 size_flags_vertical = 3
-script = ExtResource("1_0a7sh")
+script = ExtResource("1_auk0k")
 content_load = NodePath("Content_Load")
 content_loaded = NodePath("Content_Loaded")
 button_browse_file = NodePath("Content_Load/Content_ButtonsOrDrop/Buttons/Button_BrowseFile")
@@ -110,6 +110,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_r6hjp")
 
 [node name="Hinter" type="Button" parent="Content_Load/Content_ButtonsOrDrop/Drop"]
+modulate = Color(1, 0.909804, 0.207843, 1)
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 1
 anchors_preset = 1
@@ -178,12 +179,14 @@ custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("3_532lk")
+texture = ExtResource("3_yej88")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="Spacer" type="Control" parent="Content_Loaded"]
+layout_mode = 2
+
 [node name="Button_CancelFoundProject" type="Button" parent="Content_Loaded"]
-self_modulate = Color(1, 0.505882, 0.505882, 1)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Cancel"

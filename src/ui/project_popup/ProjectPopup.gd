@@ -4,7 +4,7 @@ extends Control
 @export var line_project_path : LineEdit
 @export var button_select_version : Button
 @export var button_custom_version : Button
-@export var project_loader : ProjectLoader
+@export var project_loader : ProjectPopup_Loader
 @export var error_message_label : Label
 @export var button_cancel : Button
 @export var button_accept : Button
@@ -12,7 +12,6 @@ extends Control
 var project : GodotProjectFile = null
 
 func _ready():
-	hide_error_message()
 	_unload_project()
 	project_loader.project_file_loaded.connect(_on_project_loaded)
 	project_loader.project_file_unloaded.connect(_on_project_unloaded)
@@ -34,6 +33,7 @@ func _unload_project():
 	line_project_name.text = ""
 	line_project_name.editable = false
 	line_project_path.text = ""
+	hide_error_message()
 
 func _setup_valid_project(project : GodotProjectFile) -> void:
 	line_project_name.editable = true

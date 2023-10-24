@@ -1,5 +1,5 @@
 extends Control
-class_name ProjectLoader
+class_name ProjectPopup_Loader
 
 signal project_file_loaded(project : GodotProjectFile)
 signal project_file_unloaded()
@@ -61,11 +61,7 @@ func _unload_project() -> void:
 func _try_load_project(project_path : String) -> void:
 	project = GodotProjectFile.new()
 	var err := project.try_load_project(project_path)
-	
 	var is_project_valid := project.is_project_valid()
-	if not is_project_valid:
-		project = null
-		
 	content_load.visible = not is_project_valid
 	content_loaded.visible = is_project_valid
 	project_file_loaded.emit(project)

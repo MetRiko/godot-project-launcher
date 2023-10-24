@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5ws0ehwaf66y"]
+[gd_scene load_steps=3 format=3 uid="uid://c5ws0ehwaf66y"]
 
-[ext_resource type="PackedScene" uid="uid://dj8m06i8b11fu" path="res://src/ui/AddProjectPopup.tscn" id="1_wl0jt"]
+[ext_resource type="PackedScene" uid="uid://dj8m06i8b11fu" path="res://src/ui/project_popup/ProjectPopup.tscn" id="1_wl0jt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nkes"]
+bg_color = Color(0.147, 0.168, 0.203, 1)
+corner_detail = 3
+shadow_color = Color(0.0431373, 0.0509804, 0.0588235, 0.584314)
+shadow_size = 8
+anti_aliasing = false
 
 [node name="Root" type="Control"]
 layout_mode = 3
@@ -38,6 +45,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8nkes")
 
 [node name="TobBar" type="HBoxContainer" parent="Main/TopBarBox"]
 layout_mode = 1
@@ -69,8 +77,8 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="AddProjectPopup" parent="Popups" instance=ExtResource("1_wl0jt")]
+[node name="ProjectPopup" parent="Popups" instance=ExtResource("1_wl0jt")]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[editable path="Popups/AddProjectPopup"]
+[editable path="Popups/ProjectPopup"]
