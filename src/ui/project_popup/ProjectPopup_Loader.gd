@@ -58,6 +58,15 @@ func _unload_project() -> void:
 	content_loaded.visible = false
 	project_file_unloaded.emit()
 
+func setup_project(project : GodotProjectFile):
+	var is_different_project = project != self.project 
+	if project != null and project == self.project:
+		return
+	self.project = project
+	var is_project_loaded := project != null and project.is_project_valid()
+	content_load.visible = not is_project_loaded
+	content_loaded.visible = is_project_loaded
+
 func _try_load_project(project_path : String) -> void:
 	project = GodotProjectFile.new()
 	var err := project.try_load_project(project_path)

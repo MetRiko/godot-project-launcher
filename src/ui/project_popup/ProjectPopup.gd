@@ -40,11 +40,13 @@ func _setup_valid_project(project : GodotProjectFile) -> void:
 	line_project_path.text = project.project_path
 	line_project_name.text = project.get_project_name()
 	hide_error_message()
+	project_loader.setup_project(project)
 	
 func _setup_no_project() -> void:
 	line_project_name.editable = false
 	line_project_path.text = ""
 	line_project_name.text = ""
+	project_loader.setup_project(null)
 	
 func _setup_invalid_project(project : GodotProjectFile) -> void:
 	_setup_no_project()

@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5ws0ehwaf66y"]
+[gd_scene load_steps=4 format=3 uid="uid://c5ws0ehwaf66y"]
 
+[ext_resource type="PackedScene" uid="uid://c3xg3pfelvhf4" path="res://src/ui/top_bar/MainTabSwitcher.tscn" id="1_qpa0r"]
 [ext_resource type="PackedScene" uid="uid://dj8m06i8b11fu" path="res://src/ui/project_popup/ProjectPopup.tscn" id="1_wl0jt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nkes"]
@@ -47,38 +48,58 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8nkes")
 
-[node name="TobBar" type="HBoxContainer" parent="Main/TopBarBox"]
+[node name="TopBar" type="HBoxContainer" parent="Main/TopBarBox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = 8.0
 offset_right = -8.0
-offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="Button" type="Button" parent="Main/TopBarBox/TobBar"]
+[node name="MainTabSwitcher" parent="Main/TopBarBox/TopBar" instance=ExtResource("1_qpa0r")]
 layout_mode = 2
-text = "Add project"
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 8
 
-[node name="Button_2" type="Button" parent="Main/TopBarBox/TobBar"]
-layout_mode = 2
-text = "Add project"
-
-[node name="Popups" type="VBoxContainer" parent="."]
+[node name="Popups" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 
-[node name="ProjectPopup" parent="Popups" instance=ExtResource("1_wl0jt")]
+[node name="ColorRect" type="ColorRect" parent="Popups"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0588235, 0.0666667, 0.0784314, 0.588235)
+
+[node name="PopupsHandler" type="MarginContainer" parent="Popups"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.5
+offset_top = -204.5
+offset_right = 266.5
+offset_bottom = 204.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProjectPopup" parent="Popups/PopupsHandler" instance=ExtResource("1_wl0jt")]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[editable path="Popups/ProjectPopup"]
+[editable path="Popups/PopupsHandler/ProjectPopup"]
