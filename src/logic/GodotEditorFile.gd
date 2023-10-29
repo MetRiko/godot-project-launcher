@@ -24,11 +24,23 @@ var minor_version := 0
 var patch_version := 0
 var version_status := VersionStatus.UNKNOWN
 var version_status_index := 0
-var mono := false
+var mono_support := false
 var official := false
 var version_uid := "xxxxxxxxx"
 
 var display_name := ""
+
+func get_editor_executable_path() -> String:
+	return exe_path
+
+func has_csharp_support() -> bool:
+	return mono_support
+
+func is_stable() -> bool:
+	return version_status == VersionStatus.STABLE
+	
+func is_official() -> bool:
+	return official
 
 func get_detailed_name() -> String:
 	return about_godot_name_like
@@ -111,7 +123,7 @@ func _load_project_and_validate(godot_exe_path : String) -> EditorLoadingError:
 		"rc": version_status = VersionStatus.RELEASE_CANDIDATE
 		"stable": version_status = VersionStatus.STABLE
 		_: version_status = VersionStatus.UNKNOWN
-	mono = groups[6] == "mono"
+	mono_support = groups[6] == "mono"
 	official = groups[7] == "official"
 	version_uid = groups[8]
 	

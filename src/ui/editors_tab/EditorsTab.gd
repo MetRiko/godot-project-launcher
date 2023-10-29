@@ -1,6 +1,10 @@
 extends Control
 
+const editor_entry_tscn := preload("res://src/ui/editors_tab/EditorEntry.tscn")
+
 #var godot_editor_file : GodotEditorFile
+
+@export var entries_node : VBoxContainer
 
 func _input(event):
 	if event is InputEventKey:
@@ -9,6 +13,10 @@ func _input(event):
 			
 func test():
 	
+	for c in entries_node.get_children():
+		c.queue_free()
+		entries_node.remove_child(c)
+		
 	var paths_to_test := [
 		"F:/Dev/godot/beta/Godot_v4.0-beta12_mono_win64/Godot_v4.0-beta12_mono_win64.exe",
 		"F:/Dev/godot/beta/Godot_v4.0-beta12_mono_win64/Godot_v4.0-beta12_mono_win64.ex",
@@ -22,8 +30,12 @@ func test():
 	for exe_path in paths_to_test:
 		var godot_editor_file = GodotEditorFile.new()
 		godot_editor_file.try_load_project(exe_path)
-		if godot_editor_file.is_editor_executable_valid():
-			var display_name := godot_editor_file.get_display_name()
-			var detailed_name := godot_editor_file.get_detailed_name()
-			print(display_name)
-			print(detailed_name)
+		var editor_entry := editor_entry_tscn.instantiate()
+		entries_node.add_child(editor_entry)
+		editor_entry.set_editor_data(godot_editor_file)
+		
+		#if godot_editor_file.is_editor_executable_valid():
+			#var display_name := godot_editor_file.get_display_name()
+			#var detailed_name := godot_editor_file.get_detailed_name()
+			#print(display_name)
+			#print(detailed_name)
