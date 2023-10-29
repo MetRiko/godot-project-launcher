@@ -68,10 +68,10 @@ func try_load_project(project_path : String) -> ProjectLoadingError:
 	
 	match result.error:
 		ProjectLoadingError.OK:
-			print("Project found: " + self.project_path)
+			print("[Success] Project found: " + self.project_path)
 		ProjectLoadingError.PROJECT_NOT_FOUND:
-			print("Project not found!")
+			print("[Error] Project not found!")
 		ProjectLoadingError.INVALID_PROJECT:
-			print("Invalid project: " + self.project_path)
+			print("[Error] Invalid project: " + self.project_path)
 			
 	return latest_error

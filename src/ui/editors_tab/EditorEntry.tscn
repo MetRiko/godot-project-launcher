@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=3 uid="uid://bdqtjydls8iqi"]
+
+[ext_resource type="Script" path="res://src/ui/editors_tab/EditorEntry.gd" id="1_ppx6g"]
+[ext_resource type="StyleBox" uid="uid://bsy7vh7ujvr0p" path="res://src/ui/editors_tab/editor_entry_normal.tres" id="2_27cjf"]
+[ext_resource type="Texture2D" uid="uid://b7dijtaoqwraj" path="res://res/icons/pinned_icon.svg" id="2_bq8yb"]
+[ext_resource type="FontFile" uid="uid://cer4ehidjf3av" path="res://res/fonts/noto_sans_bold.tres" id="3_p66rm"]
+[ext_resource type="StyleBox" uid="uid://u48acmvievwm" path="res://src/ui/editors_tab/editor_name_hovered.tres" id="5_sffwb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxxe5"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+bg_color = Color(0.188235, 0.239216, 0.313726, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_875hv"]
+bg_color = Color(0.188235, 0.239216, 0.313726, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="EditorEntry" type="MarginContainer" node_paths=PackedStringArray("name_label", "back_panel")]
+custom_minimum_size = Vector2(0, 42)
+size_flags_horizontal = 3
+focus_mode = 2
+script = ExtResource("1_ppx6g")
+name_label = NodePath("MarginContainer/EditorEntry/Name")
+back_panel = NodePath("Back")
+
+[node name="Back" type="Panel" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_27cjf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="EditorEntry" type="HBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Pin" type="TextureRect" parent="MarginContainer/EditorEntry"]
+modulate = Color(0.439216, 0.729412, 0.980392, 1)
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_bq8yb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="MarginContainer/EditorEntry"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_p66rm")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = ExtResource("5_sffwb")
+text = "Godot 4.3 - Doomsday"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Path" type="Label" parent="MarginContainer/EditorEntry"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "F:/Dev/godot/godot_4.x/Godot_v4.2-beta3_win64.exe"
+vertical_alignment = 2
+text_overrun_behavior = 3
+
+[node name="CustomTags" type="HBoxContainer" parent="MarginContainer/EditorEntry"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tag_1" type="Label" parent="MarginContainer/EditorEntry/CustomTags"]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cxxe5")
+text = "custom_tag"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CoreTags" type="HBoxContainer" parent="MarginContainer/EditorEntry"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tag_Csharp" type="Label" parent="MarginContainer/EditorEntry/CoreTags"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_875hv")
+text = "C#"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tag_Stable" type="Label" parent="MarginContainer/EditorEntry/CoreTags"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.207843, 1, 0.505882, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_875hv")
+text = "Stable"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tag_Dev" type="Label" parent="MarginContainer/EditorEntry/CoreTags"]
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.505882, 0.505882, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_875hv")
+text = "Dev"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tag_Custom" type="Label" parent="MarginContainer/EditorEntry/CoreTags"]
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.909804, 0.207843, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_875hv")
+text = "Custom"
+horizontal_alignment = 1
+vertical_alignment = 1
