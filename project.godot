@@ -29,3 +29,7 @@ naming/scene_name_casing=1
 [gui]
 
 theme/custom="res://res/even_simpler_theme.tres"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
