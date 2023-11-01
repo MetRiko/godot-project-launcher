@@ -1,4 +1,22 @@
-class_name FileUtils
+extends Node
+class_name FileUtilsImpl
+
+@export var Traversing : FileUtilsImpl_ThreadedTraverse
+
+class SimpleMatchExpr:
+	var expr : String
+	var case_sensitive : bool
+	func _init(_expr : String, _case_sensitive : bool = true):
+		expr = _expr
+		case_sensitive = _case_sensitive
+		
+	func return_matching_func() -> Callable:
+		if expr.is_empty() or expr == "*":
+			return func(filename : String) -> bool: return true
+		elif case_sensitive:
+			return func(filename : String) -> bool: return filename.match(expr)
+		else:
+			return func(filename : String) -> bool: return filename.matchn(expr)
 
 static func convert_string_to_proper_path(path : String) -> String:
 	if path == "":
@@ -23,9 +41,9 @@ static func try_get_project_path(filepath : String) -> String:
 			
 	return ""
 
-static func find_files_in_dir(path : String, filename : String, recursive_count : int = -1) -> PackedStringArray:
+static func find_files_in_dir(path : String, filename_expr : String, recursive_count : int = -1) -> PackedStringArray:
 	var arr := PackedStringArray()
-	traverse_directory(path, func(path): if path.get_file() == filename: arr.append(path))
+	traverse_directory(path, func(path): if path.get_file().match(filename_expr): arr.append(path))
 	return arr
 
 static func traverse_directory(path: String, callback: Callable, recursive_count : int = -1) -> bool:
@@ -38,11 +56,13 @@ static func traverse_directory(path: String, callback: Callable, recursive_count
 		print_debug("Cannot traverse \"%s\" directory" % path)
 		return false
 		
-	var current = access.get_next()
+	var current := access.get_next()
 	var dirs_to_search : PackedStringArray = []
 	while not current.is_empty():
 		var full_path = "%s/%s" % [ path, current ]
+		print(current)
 		if access.current_is_dir():
+		#if not current.begins_with('.') and access.current_is_dir():
 			dirs_to_search.append(full_path)
 		elif FileAccess.file_exists(full_path):
 			callback.call(full_path)

@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform vec2 res = vec2(221, 155);
 uniform vec4 color : source_color = vec4(1.);
 
 #define PHASES 0. // 1.: constrained random phases at vertices. 0. : all phases = 0. 
@@ -28,7 +29,7 @@ float L(vec2 P1, vec2 P2, float a1, float a2, float T, vec2 U) {
 
 void fragment() {
 	//vec2 R = (1.0 / SCREEN_PIXEL_SIZE).xy;
-	vec2 R = vec2(221, 155);
+	vec2 R = res;
 	vec2 o = 2.0/R;
 	//R = vec2(501., 155.);
     vec2 U = UV;

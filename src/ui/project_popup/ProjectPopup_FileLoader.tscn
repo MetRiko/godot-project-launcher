@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhjngc4201cvt"]
+
+[ext_resource type="PackedScene" uid="uid://bnjcfrfjif5bt" path="res://src/ui/utility/FileLoaderComponent.tscn" id="1_aojct"]
+[ext_resource type="Script" path="res://src/ui/project_popup/ProjectPopup_FileLoader.gd" id="2_eke4y"]
+
+[node name="ProjectPopup_FileLoader" instance=ExtResource("1_aojct")]
+script = ExtResource("2_eke4y")
+
+[node name="PathLabel" parent="." index="0"]
+text = "Path to Godot project or directory with project(s):"
+
+[node name="DropLabel" parent="DropArea" index="4"]
+text = "Or just drop godot.project file or directory here..."

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ks1a8osa554u"]
+
+[ext_resource type="Script" path="res://src/logic/FileUtilsImpl.gd" id="1_o665s"]
+[ext_resource type="Script" path="res://src/logic/FileUtilsImpl_ThreadedTraverse.gd" id="2_vqwmx"]
+
+[node name="FileUtils" type="Node" node_paths=PackedStringArray("Traversing")]
+script = ExtResource("1_o665s")
+Traversing = NodePath("ThreadedTraverse")
+
+[node name="ThreadedTraverse" type="Node" parent="."]
+script = ExtResource("2_vqwmx")

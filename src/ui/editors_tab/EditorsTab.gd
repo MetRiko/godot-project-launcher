@@ -1,4 +1,5 @@
 extends Control
+class_name EditorsTab
 
 const editor_entry_tscn := preload("res://src/ui/editors_tab/EditorEntry.tscn")
 
@@ -6,16 +7,28 @@ const editor_entry_tscn := preload("res://src/ui/editors_tab/EditorEntry.tscn")
 
 @export var entries_node : VBoxContainer
 
+func load_editors(editors : Array[GodotEditorFile]) -> void:
+	clear()
+	for editor in editors:
+		var editor_path := editor.get_editor_executable_path()
+		var godot_editor_file = GodotEditorFile.new()
+		godot_editor_file.try_load_project(editor_path)
+		var editor_entry := editor_entry_tscn.instantiate()
+		entries_node.add_child(editor_entry)
+		editor_entry.set_editor_data(godot_editor_file)
+		
+func clear():
+	for c in entries_node.get_children():
+		c.queue_free()
+		entries_node.remove_child(c)
+
 func _input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and event.keycode == KEY_SPACE:
 			test()
 			
 func test():
-	
-	for c in entries_node.get_children():
-		c.queue_free()
-		entries_node.remove_child(c)
+	clear()
 		
 	var paths_to_test := [
 		"F:/Dev/godot/beta/Godot_v4.0-beta12_mono_win64/Godot_v4.0-beta12_mono_win64.exe",

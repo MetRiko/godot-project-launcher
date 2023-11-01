@@ -1,6 +1,8 @@
 extends Resource
 class_name GodotProjectFile
 
+const DEBUG_MODE := false
+
 enum ProjectLoadingError {
 	OK,
 	PROJECT_NOT_FOUND,
@@ -15,6 +17,9 @@ class ProjectLoadingResult:
 var project_path := ""
 var latest_error := ProjectLoadingError.PROJECT_NOT_FOUND
 var project_data : ConfigFile = null
+
+func get_project_path() -> String:
+	return project_path
 
 func get_project_name() -> String:
 	if project_data == null:
@@ -39,12 +44,17 @@ func _validate_project(project_file_path : String) -> ProjectLoadingError:
 	return ProjectLoadingError.OK
 
 func _load_project_and_validate(project_path : String) -> ProjectLoadingResult:
-	print("Checking... [%s]" % [project_path])
+	if DEBUG_MODE:
+		print("Checking... [%s]" % [project_path])
 	
 	var result := ProjectLoadingResult.new()
 	
 	if project_path == "":
 		result.error = ProjectLoadingError.PROJECT_NOT_FOUND
+		return result
+		
+	if project_path.get_file() != "project.godot":
+		result.error = ProjectLoadingError.INVALID_PROJECT
 		return result
 		
 	var project := ConfigFile.new()
@@ -66,12 +76,13 @@ func try_load_project(project_path : String) -> ProjectLoadingError:
 	latest_error = result.error
 	project_data = result.data
 	
-	match result.error:
-		ProjectLoadingError.OK:
-			print("[Success] Project found: " + self.project_path)
-		ProjectLoadingError.PROJECT_NOT_FOUND:
-			print("[Error] Project not found!")
-		ProjectLoadingError.INVALID_PROJECT:
-			print("[Error] Invalid project: " + self.project_path)
+	if DEBUG_MODE:
+		match result.error:
+			ProjectLoadingError.OK:
+				print("[Success] Project found: " + self.project_path)
+			ProjectLoadingError.PROJECT_NOT_FOUND:
+				print("[Error] Project not found!")
+			ProjectLoadingError.INVALID_PROJECT:
+				print("[Error] Invalid project: " + self.project_path)
 			
 	return latest_error

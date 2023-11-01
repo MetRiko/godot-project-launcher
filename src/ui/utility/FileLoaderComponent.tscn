@@ -1,0 +1,420 @@
+[gd_scene load_steps=17 format=3 uid="uid://bnjcfrfjif5bt"]
+
+[ext_resource type="Script" path="res://src/ui/utility/FileLoaderComponent.gd" id="1_f0cxu"]
+[ext_resource type="Script" path="res://src/ui/utility/LineEditForPath.gd" id="1_r5u3d"]
+[ext_resource type="Texture2D" uid="uid://cebl60vp3bqcp" path="res://res/icons/folder.icon.svg" id="2_fqkwi"]
+[ext_resource type="Shader" path="res://res/drop_border.gdshader" id="3_0tvtn"]
+[ext_resource type="Texture2D" uid="uid://dh53gfv3eallc" path="res://res/icons/alert_icon.svg" id="4_t86sn"]
+[ext_resource type="Texture2D" uid="uid://de4qp0il24p8" path="res://res/icons/loading_icon.svg" id="5_geul3"]
+[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="6_0mccp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xnhrs"]
+shader = ExtResource("3_0tvtn")
+shader_parameter/res = Vector2(517, 50)
+shader_parameter/color = Color(0.278431, 0.356863, 0.478431, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aufil"]
+bg_color = Color(0.0912, 0.0984, 0.12, 1)
+border_color = Color(0.113725, 0.129412, 0.152941, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing_size = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvqi0"]
+bg_color = Color(0.381728, 0.652648, 0.886957, 1)
+border_color = Color(0.113725, 0.129412, 0.152941, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing_size = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tvdg"]
+bg_color = Color(0.0705882, 0.0745098, 0.0901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.188235, 0.239216, 0.313726, 1)
+border_blend = true
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jgpq"]
+bg_color = Color(0.113725, 0.129412, 0.152941, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.278431, 0.356863, 0.478431, 1)
+border_blend = true
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccns7"]
+bg_color = Color(0.0912, 0.0984, 0.12, 1)
+border_color = Color(0.113725, 0.129412, 0.152941, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing_size = 4.0
+
+[sub_resource type="Animation" id="Animation_0gn7g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingIcon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_wplcq"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("LoadingIcon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(0.75, 0.75, 0.75),
+"update": 0,
+"values": [0.0, 4.71239, 9.42478]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LoadingIcon:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.3, 0, 0.3, 25, 270, -0.2, -100, 0.2, 100, 540, -0.3, -25, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 2)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jl1bh"]
+_data = {
+"RESET": SubResource("Animation_0gn7g"),
+"idle": SubResource("Animation_wplcq")
+}
+
+[node name="FileLoaderComponent" type="VBoxContainer" node_paths=PackedStringArray("path_label", "path_input", "browse_file_button", "browse_dir_button", "drop_area", "drop_space_inactive", "drop_space_active", "drop_label", "loading_panel", "loading_label", "loading_icon", "error_panel", "error_label", "result_panel", "result_label")]
+offset_top = 8.0
+offset_right = 517.0
+offset_bottom = 145.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+script = ExtResource("1_f0cxu")
+path_label = NodePath("PathLabel")
+path_input = NodePath("Inputs/PathInput")
+browse_file_button = NodePath("Inputs/BrowseFileButton")
+browse_dir_button = NodePath("Inputs/BrowseDirButton")
+drop_area = NodePath("DropArea")
+drop_space_inactive = NodePath("DropArea/DropSpace_Inactive")
+drop_space_active = NodePath("DropArea/DropSpace_Active")
+drop_label = NodePath("DropArea/DropLabel")
+loading_panel = NodePath("LoadingPanel")
+loading_label = NodePath("LoadingPanel/ContentBox/Content/LoadingLabel")
+loading_icon = NodePath("LoadingPanel/ContentBox/Content/LoadingIconBox/LoadingIcon")
+error_panel = NodePath("ErrorPanel")
+error_label = NodePath("ErrorPanel/ContentBox/Content/ErrorLabel")
+result_panel = NodePath("ResultPanel")
+result_label = NodePath("ResultPanel/ContentBox/Content/ResultLabel")
+
+[node name="PathLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Path to the Godot executable file (or directory with multiple ones):"
+vertical_alignment = 2
+
+[node name="Inputs" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="PathInput" type="LineEdit" parent="Inputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+caret_blink = true
+caret_blink_interval = 0.5
+script = ExtResource("1_r5u3d")
+
+[node name="BrowseFileButton" type="Button" parent="Inputs"]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Browse..."
+
+[node name="BrowseDirButton" type="Button" parent="Inputs"]
+custom_minimum_size = Vector2(42, 38)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="BrowseDirIcon" type="TextureRect" parent="Inputs/BrowseDirButton"]
+modulate = Color(0.776471, 0.784314, 0.8, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_fqkwi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DropArea" type="Control" parent="."]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+
+[node name="DropBorder" type="Panel" parent="DropArea"]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(0, 0.662745, 1, 1)
+material = SubResource("ShaderMaterial_xnhrs")
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="DropSpace_Inactive" type="Panel" parent="DropArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_aufil")
+
+[node name="DropSpace_Active" type="Panel" parent="DropArea"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_wvqi0")
+
+[node name="Hinter" type="Button" parent="DropArea"]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -28.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 28.0
+grow_horizontal = 0
+tooltip_text = "Drop Godot executable(s) or folder with Godot executable(s)."
+focus_mode = 0
+mouse_default_cursor_shape = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_1tvdg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5jgpq")
+action_mode = 0
+button_mask = 0
+
+[node name="Label" type="Label" parent="DropArea/Hinter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -3.6
+offset_right = 1.0
+offset_bottom = 5.6
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0.188235, 0.239216, 0.313726, 1)
+theme_override_font_sizes/font_size = 14
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DropLabel" type="Label" parent="DropArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Or just drop Godot executable(s) or directory here..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LoadingPanel" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+
+[node name="Back" type="Panel" parent="LoadingPanel"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_ccns7")
+
+[node name="ContentBox" type="MarginContainer" parent="LoadingPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="Content" type="HBoxContainer" parent="LoadingPanel/ContentBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LoadingIconBox" type="Control" parent="LoadingPanel/ContentBox/Content"]
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+
+[node name="LoadingIcon" type="TextureRect" parent="LoadingPanel/ContentBox/Content/LoadingIconBox"]
+modulate = Color(0.439216, 0.729412, 0.980392, 1)
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+mouse_filter = 2
+texture = ExtResource("5_geul3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Anim" type="AnimationPlayer" parent="LoadingPanel/ContentBox/Content/LoadingIconBox"]
+libraries = {
+"": SubResource("AnimationLibrary_jl1bh")
+}
+autoplay = "idle"
+
+[node name="LoadingLabel" type="Label" parent="LoadingPanel/ContentBox/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.439216, 0.729412, 0.980392, 1)
+text = "Searching files..."
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ErrorPanel" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+
+[node name="Back" type="Panel" parent="ErrorPanel"]
+self_modulate = Color(1, 0.65098, 0.65098, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_aufil")
+
+[node name="ContentBox" type="MarginContainer" parent="ErrorPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="Content" type="HBoxContainer" parent="ErrorPanel/ContentBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ErrorIcon" type="TextureRect" parent="ErrorPanel/ContentBox/Content"]
+modulate = Color(1, 0.409283, 0.409283, 1)
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_t86sn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ErrorLabel" type="Label" parent="ErrorPanel/ContentBox/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.409283, 0.409283, 1)
+text = "[Error] Unexpected things happend."
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ResultPanel" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+
+[node name="Back" type="Panel" parent="ResultPanel"]
+self_modulate = Color(0.65098, 1, 0.811765, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_aufil")
+
+[node name="ContentBox" type="MarginContainer" parent="ResultPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Content" type="HBoxContainer" parent="ResultPanel/ContentBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResultIcon" type="TextureRect" parent="ResultPanel/ContentBox/Content"]
+modulate = Color(0.207843, 1, 0.505882, 1)
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_0mccp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultLabel" type="Label" parent="ResultPanel/ContentBox/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.207843, 1, 0.505882, 1)
+text = "Found files: 1"
+vertical_alignment = 1
+autowrap_mode = 2

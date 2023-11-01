@@ -22,7 +22,7 @@ func _ready():
 	button_browse_file.pressed.connect(_on_button_browse_file_pressed)
 	button_browse_dir.pressed.connect(_on_button_browse_dir_pressed)
 	button_cancel_found_project.pressed.connect(_on_button_button_cancel_found_project)
-	get_tree().root.files_dropped.connect(_on_files_dropped)
+	#get_tree().root.files_dropped.connect(_on_files_dropped)
 
 func _on_button_button_cancel_found_project():
 	_unload_project()

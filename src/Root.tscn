@@ -1,11 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5ws0ehwaf66y"]
+[gd_scene load_steps=9 format=3 uid="uid://c5ws0ehwaf66y"]
 
+[ext_resource type="Script" path="res://src/logic/FocusManager.gd" id="1_6fexj"]
 [ext_resource type="PackedScene" uid="uid://c3xg3pfelvhf4" path="res://src/ui/top_bar/MainTabSwitcher.tscn" id="1_qpa0r"]
 [ext_resource type="PackedScene" uid="uid://dj8m06i8b11fu" path="res://src/ui/project_popup/ProjectPopup.tscn" id="1_wl0jt"]
 [ext_resource type="PackedScene" uid="uid://bn8r2x8t7hsdt" path="res://src/ui/editors_tab/EditorsTab.tscn" id="2_sumst"]
+[ext_resource type="PackedScene" uid="uid://dhjngc4201cvt" path="res://src/ui/project_popup/ProjectPopup_FileLoader.tscn" id="5_arouf"]
+[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="5_n7v1x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nkes"]
 bg_color = Color(0.147, 0.168, 0.203, 1)
+corner_detail = 3
+shadow_color = Color(0.0431373, 0.0509804, 0.0588235, 0.584314)
+shadow_size = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u4hbm"]
+bg_color = Color(0.147, 0.168, 0.203, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 corner_detail = 3
 shadow_color = Color(0.0431373, 0.0509804, 0.0588235, 0.584314)
 shadow_size = 8
@@ -18,6 +32,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Logic" type="Node" parent="."]
+
+[node name="FocusManager" type="Node" parent="Logic"]
+script = ExtResource("1_6fexj")
 
 [node name="Back" type="Panel" parent="."]
 layout_mode = 1
@@ -72,7 +91,6 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="Popups" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,5 +122,200 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ProjectPopup" parent="Popups/PopupsHandler" instance=ExtResource("1_wl0jt")]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
+
+[node name="EditorPopup" type="PanelContainer" parent="Popups/PopupsHandler"]
+custom_minimum_size = Vector2(533, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Panel" type="Panel" parent="Popups/PopupsHandler/EditorPopup"]
+self_modulate = Color(0.760784, 0.760784, 0.760784, 1)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u4hbm")
+
+[node name="Content" type="MarginContainer" parent="Popups/PopupsHandler/EditorPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="EditLines" type="VBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Add new/edit Godot version"
+horizontal_alignment = 1
+
+[node name="EditorPopup_Loader" type="Control" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Content_Load" type="Control" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProjectPopup_FileLoader" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Load" instance=ExtResource("5_arouf")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 261.0
+
+[node name="Content_ButtonsOrDrop" type="HBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Load"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Label_Or" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Load/Content_ButtonsOrDrop"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "OR"
+
+[node name="Content_Loaded" type="VBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Label" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Loaded"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.207843, 1, 0.505882, 1)
+text = "Project loaded successfully!"
+
+[node name="Icon" type="TextureRect" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Loaded"]
+self_modulate = Color(0.207843, 1, 0.505882, 1)
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_n7v1x")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Loaded"]
+layout_mode = 2
+
+[node name="Button_CancelFoundProject" type="Button" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditorPopup_Loader/Content_Loaded"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Cancel"
+
+[node name="EditLine_ProjectName" type="HBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_ProjectName"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "Project name:"
+horizontal_alignment = 2
+
+[node name="Line_ProjectName" type="LineEdit" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_ProjectName"]
+layout_mode = 2
+size_flags_horizontal = 3
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="EditLine_ProjectPath" type="HBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_ProjectPath"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "Project path:"
+horizontal_alignment = 2
+
+[node name="Line_ProjectPath" type="LineEdit" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_ProjectPath"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="EditLine_GodotVersion" type="HBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_GodotVersion"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "Godot version:"
+horizontal_alignment = 2
+
+[node name="Button_SelectVersion" type="Button" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_GodotVersion"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Select version..."
+
+[node name="Button_AddCustomVersion" type="Button" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/EditLine_GodotVersion"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add custom"
+
+[node name="ErrorMessage" type="VBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ErrorMessage_Label" type="Label" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/ErrorMessage"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.505882, 0.505882, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Error: Error message!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Button_Cancel" type="Button" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ButtonCancel"
+text = "Cancel"
+
+[node name="Button_Accept" type="Button" parent="Popups/PopupsHandler/EditorPopup/Content/EditLines/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ButtonAccept"
+text = "Accept"
