@@ -67,6 +67,8 @@ func _traverse_directory_threaded(status : SearchingStatus, mutex : Mutex, path:
 	while dir_itr < dirs_queue.size():
 		var dir := dirs_queue[dir_itr]
 		var dir_access := DirAccess.open(dir.full_path)
+		if dir_access == null:
+			continue
 		dir_access.include_hidden = include_hidden
 		dir_access.list_dir_begin()
 		var current := dir_access.get_next()

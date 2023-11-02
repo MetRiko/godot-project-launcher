@@ -1,15 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://bnjcfrfjif5bt"]
+[gd_scene load_steps=18 format=3 uid="uid://bnjcfrfjif5bt"]
 
-[ext_resource type="Script" path="res://src/ui/utility/FileLoaderComponent.gd" id="1_f0cxu"]
-[ext_resource type="Script" path="res://src/ui/utility/LineEditForPath.gd" id="1_r5u3d"]
-[ext_resource type="Texture2D" uid="uid://cebl60vp3bqcp" path="res://res/icons/folder.icon.svg" id="2_fqkwi"]
-[ext_resource type="Shader" path="res://res/drop_border.gdshader" id="3_0tvtn"]
-[ext_resource type="Texture2D" uid="uid://dh53gfv3eallc" path="res://res/icons/alert_icon.svg" id="4_t86sn"]
-[ext_resource type="Texture2D" uid="uid://de4qp0il24p8" path="res://res/icons/loading_icon.svg" id="5_geul3"]
-[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="6_0mccp"]
+[ext_resource type="Script" path="res://src/ui/file_loader_component/FileLoaderComponent.gd" id="1_obvsg"]
+[ext_resource type="Script" path="res://src/ui/utility/LineEditForPath.gd" id="2_siu62"]
+[ext_resource type="Script" path="res://src/ui/file_loader_component/FileLoaderComponent_StatePanels.gd" id="2_ygx5f"]
+[ext_resource type="Texture2D" uid="uid://cebl60vp3bqcp" path="res://res/icons/folder.icon.svg" id="3_qykxq"]
+[ext_resource type="Shader" path="res://res/drop_border.gdshader" id="4_cnrrn"]
+[ext_resource type="Texture2D" uid="uid://de4qp0il24p8" path="res://res/icons/loading_icon.svg" id="5_lwnpu"]
+[ext_resource type="Texture2D" uid="uid://dh53gfv3eallc" path="res://res/icons/alert_icon.svg" id="6_olmsu"]
+[ext_resource type="Texture2D" uid="uid://bepsrr65yd3m2" path="res://res/icons/project_success_icon.svg" id="7_bw287"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xnhrs"]
-shader = ExtResource("3_0tvtn")
+shader = ExtResource("4_cnrrn")
 shader_parameter/res = Vector2(517, 50)
 shader_parameter/color = Color(0.278431, 0.356863, 0.478431, 1)
 
@@ -115,28 +116,32 @@ _data = {
 "idle": SubResource("Animation_wplcq")
 }
 
-[node name="FileLoaderComponent" type="VBoxContainer" node_paths=PackedStringArray("path_label", "path_input", "browse_file_button", "browse_dir_button", "drop_area", "drop_space_inactive", "drop_space_active", "drop_label", "loading_panel", "loading_label", "loading_icon", "error_panel", "error_label", "result_panel", "result_label")]
+[node name="FileLoaderComponent" type="VBoxContainer" node_paths=PackedStringArray("path_label", "path_input", "browse_file_button", "browse_dir_button", "state_panels")]
 offset_top = 8.0
 offset_right = 517.0
 offset_bottom = 145.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
-script = ExtResource("1_f0cxu")
+script = ExtResource("1_obvsg")
 path_label = NodePath("PathLabel")
 path_input = NodePath("Inputs/PathInput")
 browse_file_button = NodePath("Inputs/BrowseFileButton")
 browse_dir_button = NodePath("Inputs/BrowseDirButton")
-drop_area = NodePath("DropArea")
-drop_space_inactive = NodePath("DropArea/DropSpace_Inactive")
-drop_space_active = NodePath("DropArea/DropSpace_Active")
-drop_label = NodePath("DropArea/DropLabel")
-loading_panel = NodePath("LoadingPanel")
-loading_label = NodePath("LoadingPanel/ContentBox/Content/LoadingLabel")
-loading_icon = NodePath("LoadingPanel/ContentBox/Content/LoadingIconBox/LoadingIcon")
-error_panel = NodePath("ErrorPanel")
-error_label = NodePath("ErrorPanel/ContentBox/Content/ErrorLabel")
-result_panel = NodePath("ResultPanel")
-result_label = NodePath("ResultPanel/ContentBox/Content/ResultLabel")
+state_panels = NodePath("FileLoaderComponent_StatePanels")
+
+[node name="FileLoaderComponent_StatePanels" type="Node" parent="." node_paths=PackedStringArray("drop_area", "drop_space_inactive", "drop_space_active", "drop_label", "loading_panel", "loading_label", "loading_icon", "error_panel", "error_label", "result_panel", "result_label")]
+script = ExtResource("2_ygx5f")
+drop_area = NodePath("../DropArea")
+drop_space_inactive = NodePath("../DropArea/DropSpace_Inactive")
+drop_space_active = NodePath("../DropArea/DropSpace_Active")
+drop_label = NodePath("../DropArea/DropLabel")
+loading_panel = NodePath("../LoadingPanel")
+loading_label = NodePath("../LoadingPanel/ContentBox/Content/LoadingLabel")
+loading_icon = NodePath("../LoadingPanel/ContentBox/Content/LoadingIconBox/LoadingIcon")
+error_panel = NodePath("../ErrorPanel")
+error_label = NodePath("../ErrorPanel/ContentBox/Content/ErrorLabel")
+result_panel = NodePath("../ResultPanel")
+result_label = NodePath("../ResultPanel/ContentBox/Content/ResultLabel")
 
 [node name="PathLabel" type="Label" parent="."]
 layout_mode = 2
@@ -155,7 +160,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 caret_blink = true
 caret_blink_interval = 0.5
-script = ExtResource("1_r5u3d")
+script = ExtResource("2_siu62")
 
 [node name="BrowseFileButton" type="Button" parent="Inputs"]
 custom_minimum_size = Vector2(80, 38)
@@ -183,7 +188,7 @@ offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_fqkwi")
+texture = ExtResource("3_qykxq")
 expand_mode = 1
 stretch_mode = 5
 
@@ -325,7 +330,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(16, 16)
 mouse_filter = 2
-texture = ExtResource("5_geul3")
+texture = ExtResource("5_lwnpu")
 expand_mode = 1
 stretch_mode = 5
 
@@ -369,7 +374,7 @@ modulate = Color(1, 0.409283, 0.409283, 1)
 custom_minimum_size = Vector2(32, 28)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("4_t86sn")
+texture = ExtResource("6_olmsu")
 expand_mode = 1
 stretch_mode = 5
 
@@ -407,7 +412,7 @@ modulate = Color(0.207843, 1, 0.505882, 1)
 custom_minimum_size = Vector2(32, 28)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("6_0mccp")
+texture = ExtResource("7_bw287")
 expand_mode = 1
 stretch_mode = 5
 
